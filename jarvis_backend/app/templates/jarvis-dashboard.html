@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Jarvis - Dashboard</title>
+  <meta name="description" content="Jarvis - Dashboard">
+  <meta name="keywords" content="Jarvis, Dashboard">
+
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="pragma" content="no-cache" />
+
+  <link rel="icon" href="{% static 'img/jarvis-logo.png' %}" sizes="16x16" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light nav_expand nav-toggled">
+    <div class="container">
+      <div class="nav_collapse collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="row width_100">
+          <div class="col-8 col-md-6 col-lg-6">
+            <div class="head_logo">
+              <img src="{% static 'img/jarvis-logo.png' %}" alt="">
+            </div>
+          </div>
+          <div class="col-4 col-md-6 col-lg-6 padd_3">
+            <ul class="navbar-nav navbar_nav mr-auto">
+              <li class="nav-item dropdown user_logout">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <img src="{% static 'img/employee.png' %}">
+                  <!-- <span>Welcome <br>Prakash Jha Singh Sisodia</span> -->
+                </a>
+                <div class="dropdown-menu dropdown_menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="#">Log Out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar Code -->
+  <div class="page-wrapper chiller-theme toggled">
+    <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+      <i class="fa fa-bars"></i>
+    </a>
+
+    <!-- sidebar-wrapper  -->
+    <main class="page-content jarvis_content">
+      <div class="page_card">
+        <div class="container">
+          <div class="row">
+            <!-- <h1 class="col-12">Dashboard</h1> -->
+            <div class="col-md-3">
+              <ul class="nandi_welcome_card">
+                <li>
+                  <h4><img src="{% static 'img/jarvis-icon-1.svg' %}" alt=""> $500</h4>
+                  <p>Account Balance</p>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <ul class="nandi_welcome_card">
+                <li>
+                  <h4><img src="{% static 'img/jarvis-icon-2.svg' %}" alt=""> $3200</h4>
+                  <p>Total PnL</p>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <ul class="nandi_welcome_card">
+                <li>
+                  <h4><img src="{% static 'img/jarvis-icon-3.svg' %}" alt=""> $500</h4>
+                  <p>Thid week Pn</p>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <ul class="nandi_welcome_card">
+                <li>
+                  <h4><img src="{% static 'img/jarvis-icon-4.svg' %}" alt=""> $420</h4>
+                  <p>This month PnL</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="card_map">
+                    <img src="{% static 'img/graph-3.png' %}" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="card_map">
+                    <img src="{% static 'img/graph-4.png' %}" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="card">
+                <h5 class="card-header">Historical Trades <em class="fa fa-download pull-right"></em></h5>
+                <div class="card-body">
+                  <div class="card_table">
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">MODE</th>
+                          <th scope="col">STRATEGY ID</th>
+                          <th scope="col">SETTING</th>
+                          <th scope="col">SYMBOL</th>
+                          <th scope="col">ENTRY_TIME</th>
+                          <th scope="col">ENTRY_PRICE</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Paper</td>
+                          <td>Jarvis_nance</td>
+                          <td>5.0Rise Mins</td>
+                          <td>Ankrudst</td>
+                          <td>16-03-2021 16:30 PM</td>
+                          <td>0.02463</td>
+                        </tr>
+                        <tr>
+                          <td>Paper</td>
+                          <td>Jarvis_nance</td>
+                          <td>5.0Rise Mins</td>
+                          <td>Ankrudst</td>
+                          <td>16-03-2021 16:30 PM</td>
+                          <td>0.02463</td>
+                        </tr>
+                        <tr>
+                          <td>Paper</td>
+                          <td>Jarvis_nance</td>
+                          <td>5.0Rise Mins</td>
+                          <td>Ankrudst</td>
+                          <td>16-03-2021 16:30 PM</td>
+                          <td>0.02463</td>
+                        </tr>
+                        <tr>
+                          <td>Paper</td>
+                          <td>Jarvis_nance</td>
+                          <td>5.0Rise Mins</td>
+                          <td>Ankrudst</td>
+                          <td>16-03-2021 16:30 PM</td>
+                          <td>0.02463</td>
+                        </tr>
+                        <tr>
+                          <td>Paper</td>
+                          <td>Jarvis_nance</td>
+                          <td>5.0Rise Mins</td>
+                          <td>Ankrudst</td>
+                          <td>16-03-2021 16:30 PM</td>
+                          <td>0.02463</td>
+                        </tr>
+                        <tr>
+                          <td>Paper</td>
+                          <td>Jarvis_nance</td>
+                          <td>5.0Rise Mins</td>
+                          <td>Ankrudst</td>
+                          <td>16-03-2021 16:30 PM</td>
+                          <td>0.02463</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="card">
+                <h5 class="card-header text-center">Manage Strategy</h5>
+                <div class="card-body">
+                  <div class="card_table">
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Description</th>
+                          <th scope="col">Status</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Jassica</td>
+                          <td><em class="fa fa-circle" style="color: green; font-size: 10px"></em> Start</td>
+                          <td class="text-right">
+                            <button class="btn btn-secondary start_btn">Start</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Adam</td>
+                          <td><em class="fa fa-circle" style="color: red; font-size: 10px"></em> Stop</td>
+                          <td class="text-right">
+                            <button class="btn btn-secondary stop_btn">Stop</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- page-content" -->
+  </div>
+
+  <script src="{% static 'js/jquery.3.2.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery.3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+
+  <script>
+    $('.demo-1').datepicker();
+  </script>
+
+</body>
+
+</html>
