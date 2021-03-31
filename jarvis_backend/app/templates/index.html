@@ -40,16 +40,19 @@
                             <img src="{% static 'img/jarvis-logo.png' %}">
                             <div class="input_card">
                                 <h5>Please Login to your Account</h5>
+                                {%if error%}
+                                <h4 style='color:red'>{{error}}</h4>
+                                {%endif%}
                                 <form action="{% url 'user-dashboard-page' %}" method="post">
                                     <div class="form-group">
                                         <label for="" class="control-label">Email ID</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1"
-                                            placeholder="Enter email address" aria-describedby="emailHelp">
+                                        <input type="email" class="form-control" name="email" id="exampleInputEmail1"
+                                            placeholder="Enter email address" aria-describedby="emailHelp" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="" class="control-label">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1"
-                                            placeholder="Enter your password">
+                                        <input name="password" type="password" class="form-control" id="exampleInputPassword1"
+                                            placeholder="Enter your password" required>
                                         <img src="{% static 'img/open-eye.svg' %}" class="show_password"></i>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-block">Login</button>
