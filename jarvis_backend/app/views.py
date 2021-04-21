@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import permissions
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .Exceldata import ReadExcel
 from django.conf import settings
+from app.ui_methods import authenticate,get_net_worth,get_pnl,get_open_positions,get_trades_history
 # Create your views here.
 
 test_crdentials='admin@gmail.com'
@@ -32,10 +33,16 @@ class Dashboard(APIView):
 
     def post(self, request, format=None):
         auth = False
-        if request.data['email']==test_crdentials and request.data['password']==password:
+        if authenticate(request.data['email'],request.data['password']):
             auth = True
             print('authentication',auth)
-            return render(request, self.template_name,{'auth':auth})
+            net_worth =get_net_worth(request.data['email'])
+            print(net_worth,"jkl")
+            pnl = get_pnl(request.data['email'])
+            print(pnl)
+            request.session['username'] = 'myvalue'
+
+            return render(request, self.template_name,{'auth':auth, 'net_worth':net_worth,"pnl":pnl,"username":request.data['email']})
         
         print('authentication',auth)
         return render(request, self.login_template, {'auth':auth, 'error':'Incorrect Email or Password'})
@@ -50,10 +57,21 @@ class PnlReport(APIView):
 class TradeData(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request):
-        excel_instance = ReadExcel(settings.EXCEL_PATH)
-        trade_data = excel_instance.get_trade_data()
+    def get(self, request,username):
+        print(username)
+        # excel_instance = ReadExcel(settings.EXCEL_PATH)
+        # trade_data = excel_instance.get_trade_data()
+        trade_data = get_trades_history(username)
+        # print("trade history")
+        # print(trade_data)
         return Response({'data':trade_data})
+
+class OpenPositions(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request,username):
+        data = get_open_positions(username)
+        return Response({'data':data})
 
 class Strategies(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -87,7 +105,11 @@ class BarData(APIView):
         excel_instance = ReadExcel(settings.EXCEL_PATH)
         bar_data = excel_instance.get_bar_data()
         seq = [x['entry_qty'] for x in bar_data]
-        print(round(max(seq)))
-        print(min(seq))
+        # print(round(max(seq)))
+        # print(min(seq))
         data={'max_val':max(seq), 'bar_data':bar_data}
         return Response(data)
+
+class Logout(APIView):
+    def get(self, request):
+        return redirect('/login')

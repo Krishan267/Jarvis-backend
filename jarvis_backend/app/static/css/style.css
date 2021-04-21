@@ -559,6 +559,8 @@ strong {
   line-height: 40px !important;
   padding: 0px 10px;
   border-top: none;
+  white-space: nowrap;
+
 }
 
 td em.fa-pencil-square-o {
@@ -1589,6 +1591,7 @@ input:not(:placeholder-shown) {
 .nandi_welcome_card h4 {
   margin: 0;
   color: #00589B;
+  font-weight: 200;
 }
 
 .nandi_welcome_card ul {

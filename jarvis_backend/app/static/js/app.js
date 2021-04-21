@@ -4,17 +4,52 @@
  */
 
 function getTradeData() {
+    var username = document.getElementById('username').textContent;
     $.ajax({
-        url:'trade_data',
+        url:'trade_data/'+username,
         type:'GET',
         success: function(result){
             var rows = result.data
-            console.log(rows)
+            var html = "";
+            for (var i = 0; i < Object.values(rows)[0].length; i++) {
+                console.log("1")
+                html+="<tr class='td-data'>";
+                html+="<td>"+rows.exchange[i]+"</td>";
+                html+="<td>"+rows.symbol[i]+"</td>";
+                html+="<td>"+rows.entry_time[i]+"</td>";
+                html+="<td>"+rows.entry_price[i]+"</td>";
+                html+="<td>"+rows.qty[i]+"</td>";
+                html+="<td>"+rows.exit_time[i]+"</td>";
+                html+="<td>"+rows.exit_price[i]+"</td>";
+                html+="<td>"+rows.net_pnl_usd[i]+"</td>";
+                html+="<td>"+rows.net_pnl_percent[i]+"</td>";
+                html+="<td>"+rows.result[i]+"</td>";
+                html+="</tr>";
+    
+            }
+            document.getElementById("trade-data").innerHTML = html;
+        },
+        error: function(error) {
+            console.log('ERROR ${error}')
+        }
+      });
+}
+
+
+function getOpenPositions() {
+    var username = document.getElementById('username').textContent;
+    
+    $.ajax({
+        url:'open_positions'+username,
+        type:'GET',
+        success: function(result){
+            var rows = result.data
+            // console.log(rows)
             var html = "";
     
             for (var i = 0; i < rows.length; i++) {
                 html+="<tr class='td-data'>";
-                html+="<td>"+rows[i].mode+"</td>";
+                html+="<td>"+rows[i].exchange+"</td>";
                 html+="<td>"+rows[i].strategyId+"</td>";
                 html+="<td>"+rows[i].setting+"</td>";
                 html+="<td>"+rows[i].symbol+"</td>";
@@ -23,6 +58,8 @@ function getTradeData() {
                 html+="</tr>";
     
             }
+
+            console.log(html);
     
             document.getElementById("trade-data").innerHTML = html;
         },
@@ -53,7 +90,7 @@ function manageStrategy() {
         type:'GET',
         success: function(result){
             var strategies_data = result.data
-            console.log(strategies_data)
+            // console.log(strategies_data)
             var html = "";
 
             for (var i = 0; i < strategies_data.length; i++) {
@@ -171,7 +208,7 @@ function makeLineGraph() {
                 d.entry_qty = +d.entry_qty;
                 });
             
-            console.log(result)
+            // console.log(result)
 
             var x = d3.scaleTime()
                 .domain(d3.extent(result, function(d) { return d.entry_time; }))
@@ -205,7 +242,7 @@ function makeLineGraph() {
         }
       });
 }
-
+// getOpenPositions()
 getTradeData()
 manageStrategy()
 makebarData()

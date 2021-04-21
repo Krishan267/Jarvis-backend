@@ -119,4 +119,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-EXCEL_PATH = "/home/ubuntu/JARVIS/Jarvis-backend/jarvis_backend/Tradestable.xlsx"
+EXCEL_PATH = "/home/abhishekgautam/Downloads/Jarvis-backend/jarvis_backend/Tradestable.xlsx"
