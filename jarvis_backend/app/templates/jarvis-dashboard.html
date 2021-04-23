@@ -79,7 +79,7 @@
             <div class="col-md-3">
               <ul class="nandi_welcome_card">
                 <li>
-                  <h4><img src="{% static 'img/jarvis-icon-2.svg' %}" alt=""> {{pnl.all_pnl}}</h4>
+                  <h4><img src="{% static 'img/jarvis-icon-2.svg' %}" alt=""> {{pnl.all_pnl|floatformat}}</h4>
                   <p>Total PnL</p>
                 </li>
               </ul>
@@ -87,15 +87,15 @@
             <div class="col-md-3">
               <ul class="nandi_welcome_card">
                 <li>
-                  <h4><img src="{% static 'img/jarvis-icon-3.svg' %}" alt="">{{ pnl.week_pnl }}</h4>
-                  <p>This week Pn</p>
+                  <h4><img src="{% static 'img/jarvis-icon-3.svg' %}" alt="">{{ pnl.week_pnl|floatformat }}</h4>
+                  <p>This week PnL</p>
                 </li>
               </ul>
             </div>
             <div class="col-md-3">
               <ul class="nandi_welcome_card">
                 <li>
-                  <h4><img src="{% static 'img/jarvis-icon-4.svg' %}" alt=""> {{ pnl.month_pnl }}</h4>
+                  <h4><img src="{% static 'img/jarvis-icon-4.svg' %}" alt=""> {{ pnl.month_pnl|floatformat }}</h4>
                   <p>This month PnL</p>
                 </li>
               </ul>
@@ -124,22 +124,22 @@
             <!-- </div> -->
             <div class="col-md-12">
               <div class="card">
-                <h5 class="card-header">Historical Trades <em class="fa fa-download pull-right"></em></h5>
+                <h5 class="card-header">Historical Trades <em class="fa fa-download pull-right" id ="trade_download"></em></h5>
                 <div class="card-body">
-                  <div class="card_table">
-                    <table class="table table-bordered table-hover">
-                      <thead>
+                  <div class="card_table abc">
+                    <table class="table table-bordered table-fixed table-hover">
+                      <thead style="position: sticky;top: 0">
                         <tr>
-                          <th scope="col">Exchange</th>
-                          <th scope="col">Symbol</th>
-                          <th scope="col">Entry Time</th>
-                          <th scope="col">Entry Price</th>
-                          <th scope="col">QTY</th>
-                          <th scope="col">Exit Time</th>
-                          <th scope="col">Exit Price</th>
-                          <th scope="col">Net USD</th>
-                          <th scope="col">Net Percent</th>
-                          <th scope="col">Result</th>
+                          <th  class="header" scope="col">Exchange</th>
+                          <th class="header" scope="col">Symbol</th>
+                          <th class="header" scope="col">Entry Time</th>
+                          <th class="header" scope="col">Entry Price</th>
+                          <th class="header" scope="col">QTY</th>
+                          <th  class="header" scope="col">Exit Time</th>
+                          <th  class="header" scope="col">Exit Price</th>
+                          <th  class="header" scope="col">Net USD</th>
+                          <th  class="header" scope="col">Net Percent</th>
+                          <th  class="header" scope="col">Result</th>
                         </tr>
                       </thead>
                       <tbody id="trade-data">
@@ -152,23 +152,23 @@
 
             <div class="col-md-12">
               <div class="card">
-                <h5 class="card-header">Open Positions <em class="fa fa-download pull-right"></em></h5>
+                <h5 class="card-header">Open Positions <em class="fa fa-download pull-right" id ="pos_download"></em></h5>
                 <div class="card-body">
                   <div class="card_table">
                     <table class="table table-bordered table-hover">
-                      <thead>
+                      <thead style="position: sticky;top: 0">
                         <tr>
-                          <th scope="col">Exchange</th>
-                          <th scope="col">Symbol</th>
-                          <th scope="col">Entry Time</th>
-                          <th scope="col">Price</th>
-                          <th scope="col">Side</th>
-                          <th scope="col">Open Positions</th>
-                          <th scope="col">Dollar QTY</th>
+                          <th class="header" scope="col">Exchange</th>
+                          <th class="header" scope="col">Symbol</th>
+                          <th class="header" scope="col">Entry Time</th>
+                          <th  class="header" scope="col">Price</th>
+                          <th  class="header" scope="col">Side</th>
+                          <th  class="header" scope="col">Open Positions</th>
+                          <th  class="header" scope="col">Dollar QTY</th>
           
                         </tr>
                       </thead>
-                      <tbody id="trade-data">
+                      <tbody id="position-data">
                       </tbody>
                     </table>
                   </div>
@@ -206,12 +206,15 @@
 
   <script src="{% static 'js/jquery.3.2.1.min.js' %}"></script>
   <!-- <script src="{% static 'js/jquery.3.3.1.min.js' %}"></script> -->
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+
   <script src="{% static 'js/popper.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
   <script src="{% static 'js/script.js' %}"></script>
   <script src="https://d3js.org/d3.v4.js"></script>
   <script src="{% static 'js/app.js' %}"></script>
+  <script src="{% static 'js/paging.js' %}"></script>
 
 {% endif %}
 </body>

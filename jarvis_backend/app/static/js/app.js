@@ -35,33 +35,62 @@ function getTradeData() {
       });
 }
 
+$( "#trade_download" ).click(function() {
+    var username = document.getElementById('username').textContent;
+    $.ajax({
+        url:'trade_data_download/'+username,
+        type:'GET',
+        success: function(result){
+            window.location='trade_data_download/'+username
+
+            
+        }
+    });
+  });
+
+  $( "#pos_download" ).click(function() {
+    var username = document.getElementById('username').textContent;
+    $.ajax({
+        url:'open_positions_download/'+username,
+        type:'GET',
+        success: function(result){
+            window.location='open_positions_download/'+username
+
+            
+        }
+    });
+  });
+
 
 function getOpenPositions() {
     var username = document.getElementById('username').textContent;
     
     $.ajax({
-        url:'open_positions'+username,
+        url:'open_positions/'+username,
         type:'GET',
         success: function(result){
             var rows = result.data
-            // console.log(rows)
             var html = "";
-    
-            for (var i = 0; i < rows.length; i++) {
+            for (var i = 0; i < Object.values(rows)[0].length; i++) {
+                console.log("1")
                 html+="<tr class='td-data'>";
-                html+="<td>"+rows[i].exchange+"</td>";
-                html+="<td>"+rows[i].strategyId+"</td>";
-                html+="<td>"+rows[i].setting+"</td>";
-                html+="<td>"+rows[i].symbol+"</td>";
-                html+="<td>"+rows[i].entry_time+"</td>";
-                html+="<td>"+rows[i].entry_price+"</td>";
+                html+="<td>"+rows.exchange[i]+"</td>";
+                html+="<td>"+rows.symbol[i]+"</td>";
+                html+="<td>"+rows.entry_time_utc[i]+"</td>";
+                html+="<td>"+rows.price[i]+"</td>";
+                html+="<td>"+rows.side[i]+"</td>";
+                html+="<td>"+rows.open_pos[i]+"</td>";
+                html+="<td>"+rows.dollar_qty[i]+"</td>";
+                // html+="<td>"+rows.net_pnl_usd[i]+"</td>";
+                // html+="<td>"+rows.net_pnl_percent[i]+"</td>";
+                // html+="<td>"+rows.result[i]+"</td>";
                 html+="</tr>";
     
             }
 
             console.log(html);
     
-            document.getElementById("trade-data").innerHTML = html;
+            document.getElementById("position-data").innerHTML = html;
         },
         error: function(error) {
             console.log('ERROR ${error}')
@@ -74,7 +103,8 @@ function getOpenPositions() {
  */
 function startService() {
     console.log('here in start service')
-    $('.change-status-off').html("<em class='fa fa-circle' style='color: green; font-size: 10px'></em>"+'Start');
+
+    $('.change-status-stopped').html("<em class='fa fa-circle' style='color: green; font-size: 10px'></em>"+'Start');
     $('.change-button-color-green').html("<button class='btn btn-secondary start_btn' onclick='stopService()'>"+"Start"+"</button>");
 }
 
@@ -85,27 +115,34 @@ function stopService() {
 }
 
 function manageStrategy() {
+    var username = document.getElementById('username').textContent;
     $.ajax({
-        url:'strategies',
+        url:'strategies/'+username,
         type:'GET',
         success: function(result){
             var strategies_data = result.data
-            // console.log(strategies_data)
+            console.log(strategies_data)
             var html = "";
 
-            for (var i = 0; i < strategies_data.length; i++) {
+            for (var i = 0; i < Object.values(strategies_data)[0].length; i++) {
                 html+="<tr>";
-                html+="<td>"+strategies_data[i].description+"</td>";
-                if (strategies_data[i].status === 'Start'){
-                    html+="<td class='change-status-on'><em class='fa fa-circle' style='color: green; font-size: 10px'></em>"+strategies_data[i].status+"</td>"
+                html+="<td>"+strategies_data.strategy[i]+"</td>";
+                if (strategies_data.status[i] === 'RUNNING'){
+                    html+="<td class='change-status-on'><em class='fa fa-circle' style='color: green; font-size: 10px'></em>"+strategies_data.status[i]+"</td>"
                     html+="<td class='text-right change-button-color-red'>"
-                    html+="<button class='btn btn-secondary start_btn' onclick='stopService()'>"+strategies_data[i].status+"</button>"
+                    html+="<button class='btn btn-secondary stop_btn' onclick='stopService()'>Stop</button>"
+                    html+="</td>"
+                }
+                else if(strategies_data.status[i] === 'STOPPED'){
+                    html+="<td class='change-status-stopped'><em class='fa fa-circle' style='color: red; font-size: 10px'></em>"+strategies_data.status[i]+"</td>"
+                    html+="<td class='text-right change-button-color-green'>"
+                    html+="<button class='btn btn-secondary start_btn' onclick='startService()'>Start</button>"
                     html+="</td>"
                 }
                 else{
-                    html+="<td class='change-status-off'><em class='fa fa-circle' style='color: red; font-size: 10px'></em>"+strategies_data[i].status+"</td>"
+                    html+="<td class='change-status-starting'><em class='fa fa-circle' style='color: red; font-size: 10px'></em>"+strategies_data.status[i]+"</td>"
                     html+="<td class='text-right change-button-color-green'>"
-                    html+="<button class='btn btn-secondary stop_btn' onclick='startService()'>"+strategies_data[i].status+"</button>"
+                    // html+="<button class='btn btn-secondary start_btn' onclick='startService()'></button>"
                     html+="</td>"
                 }
                 html+="</tr>";
@@ -242,7 +279,7 @@ function makeLineGraph() {
         }
       });
 }
-// getOpenPositions()
+getOpenPositions()
 getTradeData()
 manageStrategy()
 makebarData()

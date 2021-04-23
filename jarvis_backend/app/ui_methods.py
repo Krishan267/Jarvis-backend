@@ -98,15 +98,56 @@ def get_trades_history(user):
         traceback.print_exc()
         return pd.DataFrame()
 
+def update_status(user, strategy, status):
+    try:
+        status_df = get_table_df(BINANCE_STATUS_TABLE)
+        if len(status_df) > 0:
+            udf = status_df[(status_df['user'] == user) & (status_df['strategy'] == strategy)]
+            if len(udf) > 0:
+                id = udf.iloc[0]['id']
+                update_table(table_name=BINANCE_STATUS_TABLE, col='id', value=id, in_dict=dict(status=status))
+                return True
+        return False
+    except:
+        traceback.print_exc()
+        return False
+
+
+def get_strategy_list_status(user):
+    try:
+        status_df = get_table_df(BINANCE_STATUS_TABLE)
+        if len(status_df) > 0:
+            udf = status_df[(status_df['user'] == user)]
+            return udf[['strategy', 'status']]
+        return pd.DataFrame()
+    except:
+        traceback.print_exc()
+        return pd.DataFrame()
+
 
 def start_strategy(user, strategy):
-    "BINANCE_STATUS_TABLE"
+    return update_status(user, strategy, status=STARTING)
 
 
 def stop_strategy(user, strategy):
-    "BINANCE_STATUS_TABLE"
+    return update_status(user, strategy, status=STOPPING)
 
 
 def close_all_positions(user, exchange):
     ""
 
+
+def get_table_df(table_name):
+    db = sqlite3.connect(BINANCE_DB)
+    df = pd.read_sql_query(f"SELECT * FROM {table_name}", db)
+    return df
+
+
+def update_table(table_name, col, value, in_dict):
+    db = sqlite3.connect(BINANCE_DB)
+    cursor = db.cursor()
+    for this_col in in_dict:
+        if this_col != col:
+            cursor.execute(f'UPDATE {table_name} SET {this_col} = ? WHERE {col} = ?', (in_dict[this_col], value))
+            db.commit()
+            print(f"Successfully updated : {table_name}")
