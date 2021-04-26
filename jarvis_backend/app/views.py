@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .Exceldata import ReadExcel
 from django.conf import settings
-from app.ui_methods import authenticate,get_net_worth,get_pnl,get_open_positions,get_trades_history,get_strategy_list_status
+from app.ui_methods import authenticate,get_net_worth,get_pnl,get_open_positions,get_trades_history,get_strategy_list_status, start_strategy, stop_strategy
 from django.http import HttpResponse
 
 # Create your views here.
@@ -137,3 +137,14 @@ class BarData(APIView):
 class Logout(APIView):
     def get(self, request):
         return redirect('/login')
+
+class StartStrategy(APIView):
+    def get(self, request,username,strategy):
+        data = start_strategy(username,strategy)
+        return Response({'data':data})
+
+class StopStrategy(APIView):
+    def get(self, request,username,strategy):
+        data = stop_strategy(username,strategy)
+        print(data)
+        return Response({'data':data})

@@ -15,6 +15,11 @@ BINANCE_STATUS_TABLE = 'BINANCE_STATUS'
 BINANCE_BAN_TABLE = 'BINANCE_BAN'
 BINANCE_BALANCE_TABLE = 'BINANCE_BALANCE'
 LOGIN_TABLE = 'LOGIN_TABLE'
+STARTING = 'STARTING'
+RUNNING = 'RUNNING'
+STOPPED = 'STOPPED'
+ERROR = 'ERROR'
+STOPPING = 'STOPPING'
 
 
 def get_table_df(table_name):
@@ -126,11 +131,11 @@ def get_strategy_list_status(user):
 
 
 def start_strategy(user, strategy):
-    return update_status(user, strategy, status=STARTING)
+    return update_status(user, strategy, status=RUNNING)
 
 
 def stop_strategy(user, strategy):
-    return update_status(user, strategy, status=STOPPING)
+    return update_status(user, strategy, status=STOPPED)
 
 
 def close_all_positions(user, exchange):

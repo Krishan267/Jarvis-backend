@@ -101,21 +101,42 @@ function getOpenPositions() {
 /**
  * function to get all the strategies services for the user
  */
-function startService() {
+function startService(id) {
     console.log('here in start service')
-
-    $('.change-status-stopped').html("<em class='fa fa-circle' style='color: green; font-size: 10px'></em>"+'Start');
-    $('.change-button-color-green').html("<button class='btn btn-secondary start_btn' onclick='stopService()'>"+"Start"+"</button>");
+    var username = document.getElementById('username').textContent;
+    console.log(id); 
+    $.ajax({
+        url:'start_strategy/'+username+"/"+id,
+        type:'GET',
+        success: function(result){ 
+            
+            console.log(result)
+        }
+    });
+    // $('.change-status-stopped').html("<em class='fa fa-circle' style='color: green; font-size: 10px'></em>"+'Start');
+    // $('.change-button-color-green').html("<button class='btn btn-secondary start_btn' onclick='stopService()'>"+"Start"+"</button>");
 }
 
-function stopService() {
+function stopService(id) {
     console.log('here in stop service')
-    $('.change-status-on').html("<em class='fa fa-circle' style='color: red; font-size: 10px'></em>"+'Stop');
-    $('.change-button-color-red').html("<button class='btn btn-secondary stop_btn' onclick='startService()'>"+"Stop"+"</button>");
+    var username = document.getElementById('username').textContent;
+    console.log(id); 
+    $.ajax({
+        url:'stop_strategy/'+username+"/"+id,
+        type:'GET',
+        success: function(result){ 
+            
+            console.log(result)
+        }
+    });
+    // manageStrategy();
+    // $('.change-status-on').html("<em class='fa fa-circle' style='color: red; font-size: 10px'></em>"+'Stop');
+    // $('.change-button-color-red').html("<button class='btn btn-secondary stop_btn' onclick='startService()'>"+"Stop"+"</button>");
 }
 
 function manageStrategy() {
     var username = document.getElementById('username').textContent;
+    try {
     $.ajax({
         url:'strategies/'+username,
         type:'GET',
@@ -123,20 +144,20 @@ function manageStrategy() {
             var strategies_data = result.data
             console.log(strategies_data)
             var html = "";
-
+            if (jQuery.isEmptyObject(strategies_data)== false){
             for (var i = 0; i < Object.values(strategies_data)[0].length; i++) {
                 html+="<tr>";
                 html+="<td>"+strategies_data.strategy[i]+"</td>";
                 if (strategies_data.status[i] === 'RUNNING'){
-                    html+="<td class='change-status-on'><em class='fa fa-circle' style='color: green; font-size: 10px'></em>"+strategies_data.status[i]+"</td>"
+                    html+="<td  class='change-status-on'><em class='fa fa-circle' style='color: green; font-size: 10px'></em>"+strategies_data.status[i]+"</td>"
                     html+="<td class='text-right change-button-color-red'>"
-                    html+="<button class='btn btn-secondary stop_btn' onclick='stopService()'>Stop</button>"
+                    html+="<button id= '"+strategies_data.strategy[i]+"'class='btn btn-secondary stop_btn' onclick='stopService(this.id)'>Stop</button>"
                     html+="</td>"
                 }
                 else if(strategies_data.status[i] === 'STOPPED'){
                     html+="<td class='change-status-stopped'><em class='fa fa-circle' style='color: red; font-size: 10px'></em>"+strategies_data.status[i]+"</td>"
                     html+="<td class='text-right change-button-color-green'>"
-                    html+="<button class='btn btn-secondary start_btn' onclick='startService()'>Start</button>"
+                    html+="<button id= '"+strategies_data.strategy[i]+"'class='btn btn-secondary start_btn' onclick='startService(this.id)'>Start</button>"
                     html+="</td>"
                 }
                 else{
@@ -148,11 +169,19 @@ function manageStrategy() {
                 html+="</tr>";
             }
             document.getElementById("strategy").innerHTML = html;
+        }else{
+            console.log("empty")
+        }
         },
         error: function(error) {
             console.log('ERROR ${error}')
         }
       });
+    }
+    catch(err) {
+console.log("error");
+
+    }
 }
 
 /**
@@ -285,7 +314,9 @@ manageStrategy()
 makebarData()
 makeLineGraph()
 
-
+setInterval(function(){
+    manageStrategy() // this will run after every 5 seconds
+}, 5000);
 
 /**
  <tr>

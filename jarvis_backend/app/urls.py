@@ -1,4 +1,4 @@
-from .views import LoginPage, Dashboard, TradeData, Strategies, LineData, BarData,OpenPositions,Logout,TradeDataDownload,OpenPositionsDownload
+from .views import LoginPage, Dashboard, TradeData, Strategies, LineData, BarData,OpenPositions,Logout,TradeDataDownload,OpenPositionsDownload,StartStrategy, StopStrategy
 from django.urls import path
 
 
@@ -13,4 +13,8 @@ urlpatterns = [
     path('dashboard/open_positions/<str:username>',OpenPositions.as_view(), name='open_positions'),
     path('dashboard/open_positions_download/<str:username>',OpenPositionsDownload.as_view(), name='open_positions_download'),
     path('dashboard/logout',Logout.as_view(), name='logout'),
+    path('dashboard/start_strategy/<str:username>/<str:strategy>', StartStrategy.as_view(), name='start-strategy'),
+    path('dashboard/stop_strategy/<str:username>/<str:strategy>', StopStrategy.as_view(), name='stop-strategy'),
+
+
 ]
