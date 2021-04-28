@@ -131,11 +131,11 @@ def get_strategy_list_status(user):
 
 
 def start_strategy(user, strategy):
-    return update_status(user, strategy, status=RUNNING)
+    return update_status(user, strategy, status=STARTING)
 
 
 def stop_strategy(user, strategy):
-    return update_status(user, strategy, status=STOPPED)
+    return update_status(user, strategy, status=STOPPING)
 
 
 def close_all_positions(user, exchange):
