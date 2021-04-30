@@ -71,7 +71,7 @@
             <div class="col-md-3">
               <ul class="nandi_welcome_card">
                 <li>
-                  <h4><img src="{% static 'img/jarvis-icon-1.svg' %}" alt="">{{net_worth}}</h4>
+                  <h4><img src="{% static 'img/jarvis-icon-1.svg' %}" alt="">${{net_worth}}</h4>
                   <p>Account Balance</p>
                 </li>
               </ul>
@@ -79,7 +79,7 @@
             <div class="col-md-3">
               <ul class="nandi_welcome_card">
                 <li>
-                  <h4><img src="{% static 'img/jarvis-icon-2.svg' %}" alt=""> {{pnl.all_pnl|floatformat}}</h4>
+                  <h4><img src="{% static 'img/jarvis-icon-2.svg' %}" alt=""> ${{pnl.all_pnl|floatformat}}</h4>
                   <p>Total PnL</p>
                 </li>
               </ul>
@@ -87,7 +87,7 @@
             <div class="col-md-3">
               <ul class="nandi_welcome_card">
                 <li>
-                  <h4><img src="{% static 'img/jarvis-icon-3.svg' %}" alt="">{{ pnl.week_pnl|floatformat }}</h4>
+                  <h4><img src="{% static 'img/jarvis-icon-3.svg' %}" alt="">${{ pnl.week_pnl|floatformat }}</h4>
                   <p>This week PnL</p>
                 </li>
               </ul>
@@ -95,7 +95,7 @@
             <div class="col-md-3">
               <ul class="nandi_welcome_card">
                 <li>
-                  <h4><img src="{% static 'img/jarvis-icon-4.svg' %}" alt=""> {{ pnl.month_pnl|floatformat }}</h4>
+                  <h4><img src="{% static 'img/jarvis-icon-4.svg' %}" alt=""> ${{ pnl.month_pnl|floatformat }}</h4>
                   <p>This month PnL</p>
                 </li>
               </ul>

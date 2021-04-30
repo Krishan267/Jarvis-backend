@@ -5,9 +5,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .Exceldata import ReadExcel
 from django.conf import settings
-from app.ui_methods import authenticate,get_net_worth,get_pnl,get_open_positions,get_trades_history,get_strategy_list_status, start_strategy, stop_strategy
+from app.ui_methods import authenticate,get_net_worth,get_pnl,get_open_positions,get_trades_history,get_strategy_list_status, start_strategy, stop_strategy,get_bar_chart_data
 from django.http import HttpResponse
-
+import pandas as pd
+import json
 # Create your views here.
 
 test_crdentials='admin@gmail.com'
@@ -72,7 +73,7 @@ class TradeDataDownload(APIView):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=trade.csv'
 
-        trade_data.to_csv(path_or_buf=response,sep=';',float_format='%.2f',index=False,decimal=",")
+        trade_data.to_csv(path_or_buf=response,sep=',',float_format='%.2f',index=False,decimal=",")
         return response
 
 class OpenPositions(APIView):
@@ -91,7 +92,7 @@ class OpenPositionsDownload(APIView):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=pos.csv'
 
-        data.to_csv(path_or_buf=response,sep=';',float_format='%.2f',index=False,decimal=",")
+        data.to_csv(path_or_buf=response,sep=',',float_format='%.2f',index=False,decimal=",")
         return response
 
 
@@ -126,11 +127,16 @@ class LineData(APIView):
 class BarData(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request):
-        excel_instance = ReadExcel(settings.EXCEL_PATH)
-        bar_data = excel_instance.get_bar_data()
-        seq = [x['entry_qty'] for x in bar_data]
-        # print(round(max(seq)))
-        # print(min(seq))
+        print("in bar")
+        bar_data = get_bar_chart_data("courtney")
+        bar_data['exit_time']=pd.to_datetime(bar_data['exit_time']).dt.date
+        
+        bar_data['exit_price']=bar_data['exit_price'].astype(float).astype(int)
+        bar_data =bar_data.to_dict(orient='records')
+        
+        
+        seq = [x['exit_price'] for x in bar_data]
+        
         data={'max_val':max(seq), 'bar_data':bar_data}
         return Response(data)
 
@@ -146,5 +152,5 @@ class StartStrategy(APIView):
 class StopStrategy(APIView):
     def get(self, request,username,strategy):
         data = stop_strategy(username,strategy)
-        print(data)
+        # print(data)
         return Response({'data':data})

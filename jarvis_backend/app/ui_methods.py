@@ -103,6 +103,30 @@ def get_trades_history(user):
         traceback.print_exc()
         return pd.DataFrame()
 
+def get_bar_chart_data(user):
+    try:
+        cols = ['exit_time','exit_price']
+        pos_df = get_table_df(table_name=BINANCE_TRADES_TABLE)
+        if len(pos_df) > 0:
+            udf = pos_df[pos_df['user'] == user]
+            return udf[cols]
+        
+        return pd.DataFrame()
+    except:
+        traceback.print_exc()
+        return pd.DataFrame()
+
+# a = get_bar_chart_data("courtney")
+# import matplotlib.pyplot as plot
+# a['exit_time']=pd.to_datetime(a['exit_time']).dt.date
+# a['exit_time']=int(a['exit_time'])
+# print(a)
+# a=a.astype(float)
+
+# a.plot.bar(x="exit_time", y="net_pnl_usd", rot=70, title="Number of tourist visits - Year 2018");
+
+# plot.show(block=True);
+
 def update_status(user, strategy, status):
     try:
         status_df = get_table_df(BINANCE_STATUS_TABLE)

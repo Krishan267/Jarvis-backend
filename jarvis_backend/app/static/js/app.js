@@ -71,6 +71,7 @@ function getOpenPositions() {
         success: function(result){
             var rows = result.data
             var html = "";
+            if (jQuery.isEmptyObject(rows)== false){
             for (var i = 0; i < Object.values(rows)[0].length; i++) {
                 console.log("1")
                 html+="<tr class='td-data'>";
@@ -87,6 +88,9 @@ function getOpenPositions() {
                 html+="</tr>";
     
             }
+        }else{
+            console.log("no data")
+        }
 
             console.log(html);
     
@@ -198,6 +202,10 @@ function makebarData() {
             height = 350 - margin.top - margin.bottom;
             max_value = data.max_val
             data=data.bar_data
+            console.log(data[0].exit_time)
+            console.log(data[0].exit_price)
+            console.log(max_value)
+
             // append the svg object to the body of the page
             var svg = d3.select("#my_dataviz")
                 .append("svg")
@@ -207,11 +215,12 @@ function makebarData() {
                     .attr("transform",
                         "translate(" + margin.left + "," + margin.top + ")");
 
-
+            console.log(data.map(function(d) { return d.exit_time;}))
+            console.log(data.map(function(d) { return d.exit_price;}))
             // X axis
             var x = d3.scaleBand()
                 .range([ 0, width ])
-                .domain(data.map(function(d) { return d.entry_time; }))
+                .domain(data.map(function(d) { return d.exit_time; }))
                 .padding(0.2);
                 svg.append("g")
                 .attr("transform", "translate(0," + height + ")")
@@ -233,9 +242,9 @@ function makebarData() {
             .enter()
             .append("rect")
                 .attr("x", function(d) { return x(d.entry_time); })
-                .attr("y", function(d) { return y(d.entry_qty); })
+                .attr("y", function(d) { return y(d.exit_price); })
                 .attr("width", x.bandwidth())
-                .attr("height", function(d) { return height - y(d.entry_qty); })
+                .attr("height", function(d) { return height - y(d.exit_price); })
                 .attr("fill", "#69b3a2")
         },
         error: function(error) {
@@ -314,9 +323,9 @@ manageStrategy()
 makebarData()
 makeLineGraph()
 
-setInterval(function(){
-    manageStrategy() // this will run after every 5 seconds
-}, 5000);
+// setInterval(function(){
+//     manageStrategy() // this will run after every 5 seconds
+// }, 5000);
 
 /**
  <tr>
