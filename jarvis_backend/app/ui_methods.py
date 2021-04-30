@@ -105,7 +105,7 @@ def get_trades_history(user):
 
 def get_bar_chart_data(user):
     try:
-        cols = ['exit_time','exit_price']
+        cols = ['exit_time','net_pnl_usd']
         pos_df = get_table_df(table_name=BINANCE_TRADES_TABLE)
         if len(pos_df) > 0:
             udf = pos_df[pos_df['user'] == user]

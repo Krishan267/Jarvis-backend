@@ -126,18 +126,30 @@ class LineData(APIView):
 
 class BarData(APIView):
     permission_classes = (permissions.AllowAny,)
-    def get(self, request):
+    def get(self, request,username):
         print("in bar")
-        bar_data = get_bar_chart_data("courtney")
+        bar_data = get_bar_chart_data(username)
+        # print(bar_data)
         bar_data['exit_time']=pd.to_datetime(bar_data['exit_time']).dt.date
         
-        bar_data['exit_price']=bar_data['exit_price'].astype(float).astype(int)
-        bar_data =bar_data.to_dict(orient='records')
+        bar_data['net_pnl_usd']=bar_data['net_pnl_usd'].astype(float)
+        #if necessary convert to datetime
+        bb = bar_data
+        df =bar_data
+        df['exit_time'] = pd.to_datetime(df['exit_time'])
         
+        dates = df['exit_time'].dt.floor('D')
+        df1 = df.groupby(pd.to_datetime(df.exit_time).dt.date).agg(sum).reset_index() 
+        print (df1)
+        df1['exit_time']=pd.to_datetime(df1['exit_time']).dt.strftime('%Y-%m-%d')
+        df1 =df1.to_dict(orient="records")
+        bb['exit_time']=pd.to_datetime(bb['exit_time']).dt.strftime('%Y-%m-%d')
+        bb =bb.to_dict(orient="records")
+
+        seq = [x['net_pnl_usd'] for x in bb]
         
-        seq = [x['exit_price'] for x in bar_data]
-        
-        data={'max_val':max(seq), 'bar_data':bar_data}
+        data={'max_val':max(seq), 'bar_data':df1}
+        print(data)
         return Response(data)
 
 class Logout(APIView):

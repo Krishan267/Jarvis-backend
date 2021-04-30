@@ -193,8 +193,9 @@ console.log("error");
  */
 
 function makebarData() {
+    var username = document.getElementById('username').textContent;
     $.ajax({
-        url:'bar_data',
+        url:'bar_data/'+username,
         type:'GET',
         success: function(data){
             var margin = {top: 30, right: 30, bottom: 80, left: 60},
@@ -202,10 +203,10 @@ function makebarData() {
             height = 350 - margin.top - margin.bottom;
             max_value = data.max_val
             data=data.bar_data
-            console.log(data[0].exit_time)
-            console.log(data[0].exit_price)
-            console.log(max_value)
-
+            // console.log(data[0].exit_time)
+            // console.log(data[0].net_pnl_usd)
+            // console.log(max_value)
+           
             // append the svg object to the body of the page
             var svg = d3.select("#my_dataviz")
                 .append("svg")
@@ -215,8 +216,8 @@ function makebarData() {
                     .attr("transform",
                         "translate(" + margin.left + "," + margin.top + ")");
 
-            console.log(data.map(function(d) { return d.exit_time;}))
-            console.log(data.map(function(d) { return d.exit_price;}))
+            // console.log(data.map(function(d) { return d.exit_time;}))
+            // console.log(data.map(function(d) { return d.net_pnl_usd;}))
             // X axis
             var x = d3.scaleBand()
                 .range([ 0, width ])
@@ -231,7 +232,7 @@ function makebarData() {
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([0, max_value])
+                .domain([-100, max_value])
                 .range([ height, 0]);
                 svg.append("g")
                 .call(d3.axisLeft(y));
@@ -241,10 +242,10 @@ function makebarData() {
             .data(data)
             .enter()
             .append("rect")
-                .attr("x", function(d) { return x(d.entry_time); })
-                .attr("y", function(d) { return y(d.exit_price); })
+                .attr("x", function(d) { return x(d.exit_time); })
+                .attr("y", function(d) { return y(d.net_pnl_usd); })
                 .attr("width", x.bandwidth())
-                .attr("height", function(d) { return height - y(d.exit_price); })
+                .attr("height", function(d) { return height - y(d.net_pnl_usd); })
                 .attr("fill", "#69b3a2")
         },
         error: function(error) {
