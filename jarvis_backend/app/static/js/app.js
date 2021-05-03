@@ -11,6 +11,7 @@ function getTradeData() {
         success: function(result){
             var rows = result.data
             var html = "";
+            if (jQuery.isEmptyObject(rows)== false){
             for (var i = 0; i < Object.values(rows)[0].length; i++) {
                 console.log("1")
                 html+="<tr class='td-data'>";
@@ -27,6 +28,9 @@ function getTradeData() {
                 html+="</tr>";
     
             }
+        }else{
+            console.log("no data")
+        }
             document.getElementById("trade-data").innerHTML = html;
         },
         error: function(error) {
@@ -72,8 +76,10 @@ function getOpenPositions() {
             var rows = result.data
             var html = "";
             if (jQuery.isEmptyObject(rows)== false){
+            // console.log("a");
+            // console.log(rows)
             for (var i = 0; i < Object.values(rows)[0].length; i++) {
-                console.log("1")
+                console.log("2")
                 html+="<tr class='td-data'>";
                 html+="<td>"+rows.exchange[i]+"</td>";
                 html+="<td>"+rows.symbol[i]+"</td>";
@@ -86,13 +92,12 @@ function getOpenPositions() {
                 // html+="<td>"+rows.net_pnl_percent[i]+"</td>";
                 // html+="<td>"+rows.result[i]+"</td>";
                 html+="</tr>";
-    
+                
             }
         }else{
             console.log("no data")
         }
 
-            console.log(html);
     
             document.getElementById("position-data").innerHTML = html;
         },
@@ -124,7 +129,7 @@ function startService(id) {
 function stopService(id) {
     console.log('here in stop service')
     var username = document.getElementById('username').textContent;
-    console.log(id); 
+    // console.log(id); 
     $.ajax({
         url:'stop_strategy/'+username+"/"+id,
         type:'GET',
@@ -146,7 +151,7 @@ function manageStrategy() {
         type:'GET',
         success: function(result){
             var strategies_data = result.data
-            console.log(strategies_data)
+            // console.log(strategies_data)
             var html = "";
             if (jQuery.isEmptyObject(strategies_data)== false){
             for (var i = 0; i < Object.values(strategies_data)[0].length; i++) {
@@ -193,6 +198,8 @@ console.log("error");
  */
 
 function makebarData() {
+    $("#my_dataviz").html("");
+
     var username = document.getElementById('username').textContent;
     $.ajax({
         url:'bar_data/'+username,
@@ -326,8 +333,24 @@ makeLineGraph()
 
 setInterval(function(){
     manageStrategy() // this will run after every 5 seconds
+    getTradeData()
+    getOpenPositions()
+    makebarData()
 }, 5000);
 
+
+
+// document.addEventListener('visibilitychange', function() {
+//     if(document.hidden) {
+//         console.log("inactive")
+//         // temporarily clear timer using clearInterval() / clearTimeout()
+//     }
+//     else {
+//         console.log("active")
+//         // tab is active again
+//         // restart timers
+//     }
+// });
 /**
  <tr>
 <td>Jassica</td>
